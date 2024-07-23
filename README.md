@@ -1,0 +1,1 @@
+Github repo for the 8-bit computer I'm building based off the ben eater [6502 project](https://eater.net/6502)
