@@ -5,3 +5,6 @@ Command to program eeprom:
 
 Command to display binary file:
 ```hexdump -C rom.bin```
+
+### Current Video
+part 2 18:09
