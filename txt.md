@@ -7,4 +7,4 @@ Command to display binary file:
 ```hexdump -C rom.bin```
 
 ### Current Video
-part 2 18:09
+part 2 31.01
