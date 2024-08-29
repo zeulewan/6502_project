@@ -6,5 +6,11 @@ Command to program eeprom:
 Command to display binary file:
 ```hexdump -C rom.bin```
 
-### Current Video
+### Current Video location
 part 2 31.01 
+
+### Arduino hook up
+
+address lines are in reverse ascending order 
+so are data lines
+dont forget clock, ground and read/write mode pin
