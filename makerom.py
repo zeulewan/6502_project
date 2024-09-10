@@ -1,6 +1,12 @@
 code = bytearray([
-    0xa9, 0x42 # load accumulator with memory, memory
-    0x8d, 0x00, 0x60 # store accumulator in memory, memory, memory
+    # VIA B register output
+    0xa9, 0xff # load accumulator with memory, memory
+    0x8d, 0x02, 0x60 # store accumulator in address, register, register
+
+    # wire 0x99 to VIA B register
+    0xa9, 0x99 
+    0x8d, 0x00, 0x60
+
 ])
 
 # init bite array with 0xea which is the 'no operation' function
