@@ -9,7 +9,9 @@ rom[2] = 0x8d # store accumulator in memory
 rom[3] = 0x00 # memory
 rom[4] = 0x60 # memory
 
-# reset vector set up (reset vector is first memory location gone to by default, the program goes to whatever is in the reset vector then counts up)
+# reset vector set up (reset vector is first memory location gone to by default, 
+# the program goes to whatever is in the reset vector then counts up)
+
 # Send to address '1000000000000000' leading zero is for EEPROM chip enable
 rom[0x7ffc] = 0x00 # points to address 8000
 rom[0x7ffd] = 0x80
