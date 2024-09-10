@@ -1,16 +1,22 @@
 code = bytearray([
-    # VIA B register output
-    0xa9, 0xff # load accumulator with memory, memory
-    0x8d, 0x02, 0x60 # store accumulator in address, register, register
+    0xa9, 0xff, # lda #$ff
+    0x8d, 0x02, 0x60, # sta $6002
 
-    # wire 0x99 to VIA B register
-    0xa9, 0x99 
-    0x8d, 0x00, 0x60
+    0xa9, 0b10010010, # lda #10010010
+    0x8d, 0x00, 0x60, # sta $6000
 
-])
+    0xa9, 0b01001001, # lda #01001001
+    0x8d, 0x00, 0x60, # sta $6000
+
+    0xa9, 0b00100100, # lda #0010010
+    0x8d, 0x00, 0x60, # sta $6000
+
+    # loop
+    0x4c, 0x05, 0x80
+    ])
 
 # init bite array with 0xea which is the 'no operation' function
-rom = bytearray([0xea] * (32768 - len(code)))
+rom = code + bytearray([0xea] * (32768 - len(code)))
 
 
 ## reset vector set up (reset vector is first memory location gone to by default, 
