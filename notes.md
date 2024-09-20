@@ -6,7 +6,11 @@ Command to program eeprom:
 Command to display binary file:
 ```hexdump -C rom.bin```
 
-### Current Video location
+[Software for assembling](http://sun.hasenbraten.de/vasm/)
+Compiled with: ```make CPU=6502 SYNTAX=oldstyle```
+Run with: ```./vasm6502_oldstyle -Fbin <example>.s```
+
+### Ben Eater 6502 current video location
 part 3 1:18 
 
 ### Arduino hook up
