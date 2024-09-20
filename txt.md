@@ -7,7 +7,7 @@ Command to display binary file:
 ```hexdump -C rom.bin```
 
 ### Current Video location
-part 2 31.01 
+part 3 1:18 
 
 ### Arduino hook up
 
