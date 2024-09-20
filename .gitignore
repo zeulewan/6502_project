@@ -2,3 +2,5 @@ package-lock.json
 package.json
 .DS_Store
 vasm
+a.out
+rom.bin
