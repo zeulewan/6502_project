@@ -1,9 +1,9 @@
 code = bytearray([
     0xa9, 0xff, # lda #$ff
-    0x8d, 0x02, 0x60, # sta $6002
+    0x8d, 0x02, 0x60, # sta $6002 inits VIA. needs array of zeros at address 2 adn 600 is for the janky pin enable stuff
 
     0xa9, 0b10010010, # lda #$92
-    0x8d, 0x00, 0x60, # sta $6000
+    0x8d, 0x00, 0x60, # sta $6000. loads binary value into 
 
     0xea, 0xea, 0xea,
 

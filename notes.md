@@ -8,7 +8,7 @@
 
 ##### [Software for assembling](http://sun.hasenbraten.de/vasm/)
 Compiled with: ```make CPU=6502 SYNTAX=oldstyle```
-Run with: ```./vasm6502_oldstyle -Fbin <example>.s```
+Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
 
 ##### Ben Eater 6502 current video location
 part 3 1:18 
