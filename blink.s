@@ -4,16 +4,13 @@ reset:
     lda #$ff ; # means load immediate. load that value, not load the value in that memory address
     sta $6002 ; $ means hex
 
+    lda #$50
+    sta $6000
+
 loop: 
-    lda #$92
+    ror
     sta $6000
     
-    lda #$49
-    sta $6000
-
-    lda #$12
-    sta $6000
-
     jmp loop
 
     .org $fffc

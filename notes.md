@@ -11,7 +11,7 @@ Compiled with: ```make CPU=6502 SYNTAX=oldstyle```
 Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
 
 ##### Ben Eater 6502 current video location
-part 3 1:18 
+part 4 0:00 
 
 ##### Arduino hook up
 Address lines are in reverse ascending order 
