@@ -1,0 +1,9 @@
+Sections:
+section .text (attr=<acrx> align=1):
+       0: opts: dp=0000 a=8 x=8
+       0: data(2): a9 ff 
+       2: data(3): 8d 02 60 
+Symbols:
+__RPTCNT EXPR(-1=0xffffffff) INTERNAL 
+__VASM EXPR(0=0x0) INTERNAL 
+__UNIXFS EXPR(0=0x0) INTERNAL 
