@@ -17,3 +17,6 @@ part 4 0:00
 Address lines are in reverse ascending order 
 so are data lines
 dont forget clock, ground and read/write mode pin
+
+##### Helful link
+[Hex to binary](https://www.rapidtables.com/convert/number/hex-to-binary.html)
