@@ -6,10 +6,10 @@ DDRA = 0x6003
     .org 0x8000
 
 reset: 
-    lda #0b11111111 ; this sets the data direction of port P on the VIA # means load immediate. load that value, not load the value in that memory address
+    lda #0b11111111 ; Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
 
-    lda #0b11111111
+    lda #0b11100000 ; binary is read right to left, therefore the highest bits are set to output here
     sta DDRA
 
     lda #0x50  ; load accumultor with #$50 # is immediate, load that value, not what is in that address location

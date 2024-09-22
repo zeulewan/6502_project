@@ -20,3 +20,10 @@ dont forget clock, ground and read/write mode pin
 
 ##### Helful link
 [Hex to binary](https://www.rapidtables.com/convert/number/hex-to-binary.html)
+
+#### Assembly notes
+- $ or 0x means hex, % or 0b means binary
+- "#" means load immediate
+
+
+bit of survivorship bias in the note taking process. what you write down you remember, so it feels like you dont need to write things down. lol
