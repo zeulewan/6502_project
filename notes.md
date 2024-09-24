@@ -26,7 +26,8 @@ dont forget clock, ground and read/write mode pin
 - "#" means load immediate
 
 
-bit of survivorship bias in the note taking process. what you write down you remember, so it feels like you dont need to write things down. lol
+#### Thoughts
+Bit of survivorship bias in the note taking process. what you write down you remember, so it feels like you dont need to write things down. lol
 
-#### Questions
-How do chips change their pins when going from read mode to write mode? They set either high or low impedence 
+Tristate = High impedance.
+So for communication between chips, the pins first need to be set to either tristate or low impedance, then they get written to wherever they're going. So I'm the CPU. Yo RAM get ready for me to read you. Now let me read you. Okay done reading you. lmao
