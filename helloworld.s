@@ -13,167 +13,75 @@ reset:
     lda #0b11111111 ; Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
 
-    lda #0b11100000 ; binary is read right to left, therefore the highest bits are set to output here
+    lda #0b11100000 ; Sets A register binary is read right to left, therefore the highest bits are set to output here
     sta DDRA
 
-    lda #0b00111000 ; Swt 8-bit mode, 2 line display, and 5x8 font. function set
-    sta PORTB
 
-    lda #0
-    sta PORTA
-    
-    lda E
-    sta PORTA
-    
-    lda #0
-    sta PORTA
+    lda #0b00111000 ; Swt 8-bit mode, 2 line display, and 5x8 font. function set
+    jsr lcd_instruction
+
+
 ; end of step 2
     
     lda #0b00001111 ; display on or off
-    sta PORTB
+    jsr lcd_instruction
 
-    lda #0
-    sta PORTA
-    
-    lda E
-    sta PORTA
-    
-    lda #0
-    sta PORTA
 ; end of step 3
  
     lda #0b00000110 ; Entry mode set
-    sta PORTB
+    jsr lcd_instruction
 
-    lda #0
-    sta PORTA
-    
-    lda E
-    sta PORTA
-    
-    lda #0
-    sta PORTA
 ;end of step 4
 
     lda #"H" ; writes H to screen
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-
+    jsr print_char
     lda #"e" 
-    sta PORTB 
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-
+    jsr print_char
     lda #"l" 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-
+    jsr print_char
     lda #"l" 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-    
+    jsr print_char
     lda #"o" 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-    
-    lda #"," 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-
+    jsr print_char
     lda #" " 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-
+    jsr print_char
     lda #"w" 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-
+    jsr print_char
     lda #"o" 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-
+    jsr print_char
     lda #"r" 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-    
+    jsr print_char
     lda #"l" 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
-
+    jsr print_char
     lda #"d" 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
+    jsr print_char
 
-    lda #"!" 
-    sta PORTB
-    lda RS
-    sta PORTA
-    lda #( RS | E) 
-    sta PORTA
-    lda RS
-    sta PORTA
 
 loop:
     jmp loop
+
+lcd_instruction:
+    ldx #0xff
+    txs
+
+    sta PORTB
+    lda #0
+    sta PORTA
+    lda #E
+    sta PORTA
+    lda #0
+    sta PORTA
+    rts
+
+print_char:
+    sta PORTB
+    lda RS
+    sta PORTA
+    lda #( RS | E) 
+    sta PORTA
+    lda RS
+    sta PORTA
+    rts
 
     .org 0xfffc
     .word reset
