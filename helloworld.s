@@ -10,10 +10,10 @@ RS = 0b00100000
     .org 0x8000
 
 reset: 
-    lda #0b11111111 ; Sets all pins on port B to output
+    lda #0b11111111 ;ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
 
-    lda #0b11100000 ; Sets A register binary is read right to left, therefore the highest bits are set to output here
+    lda #0b11100000 ;sets some of port A pins to output Sets A register binary is read right to left, therefore the highest bits are set to output here
     sta DDRA
 
 
