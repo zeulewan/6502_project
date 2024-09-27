@@ -40,3 +40,7 @@ Okay done reading you (CS high, then OE high, then WE stays high..)\
 At a neutral state the the RAM has its output enable and write enable pin high. That way it does neither. (the yare both active low)
 
 The only thing that writes to the address bus is the CPU
+
+#### ollama set up
+oco config set OCO_AI_PROVIDER='ollama' OCO_MODEL='mistral'
+oco config set OCO_API_URL=http://localhost:11434/api/chat
