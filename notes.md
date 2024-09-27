@@ -30,4 +30,13 @@ dont forget clock, ground and read/write mode pin
 Bit of survivorship bias in the note taking process. what you write down you remember, so it feels like you dont need to write things down. lol
 
 Tristate = High impedance.
-So for communication between chips, the pins first need to be set to either tristate or low impedance, then they get written to wherever they're going. So I'm the CPU. Yo RAM get ready for me to read you. Now let me read you. Okay done reading you. lmao
+So for communication between chips, the pins first need to be set to either tristate or low impedance, then they get written to wherever they're going. 
+So I'm a CPU whos gonna read from some RAM.
+I'm gonna let the RAM be read from (write enable goes high)
+Yo this is the shit I need (setting address). 
+Yo RAM get ready for me to read you (chip select goes low). 
+Now let me read you (Output enable goes low). 
+Okay done reading you (CS high, then OE high, then WE stays high..)\
+At a neutral state the the RAM has its output enable and write enable pin high. That way it does neither. (the yare both active low)
+
+The only thing that writes to the address bus is the CPU
