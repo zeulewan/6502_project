@@ -39,4 +39,4 @@ Now let me read you (Output enable goes low).
 Okay done reading you (CS high, then OE high, then WE stays high..)\
 At a neutral state the the RAM has its output enable and write enable pin high. That way it does neither. (the yare both active low)
 
-The only thing that writes to the address bus is the CPU test
+The only thing that writes to the address bus is the CPU
