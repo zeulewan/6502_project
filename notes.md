@@ -41,9 +41,14 @@ At a neutral state the the RAM has its output enable and write enable pin high. 
 
 - The only thing that writes to the address bus is the CPU
 
-- [This image helped with understanding](https://electronics.stackexchange.com/questions/107183/meaning-of-control-pins-ce-oe-we) ![alt text](VjZPw.jpg)
+- baud rate vs clock speed?
+
 
 #### ollama set up
 oco config set OCO_AI_PROVIDER='ollama' OCO_MODEL='mistral'
 oco config set OCO_API_URL=http://localhost:11434/api/chat
 
+#### RAM and bus timing notes
+- [This image helped with understanding](https://electronics.stackexchange.com/questions/107183/meaning-of-control-pins-ce-oe-we) ![alt text](photos/1.jpg)
+- ![alt text](photos/2.png)
+- I suppose it's okay if the addresses are not valid and the write enable pin gets set 
