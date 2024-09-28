@@ -11,8 +11,8 @@ Compiled with: ```make CPU=6502 SYNTAX=oldstyle```
 Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
 ```./vasm6502_oldstyle -Fbin -dotdir helloworld.s && hexdump -C a.out```
 ##### Ben Eater 6502 current video location
-Why build an entire computer on breadboards?
-
+How assembly language loops work
+2:47
 ##### Arduino hook up
 Address lines are in reverse ascending order 
 so are data lines
