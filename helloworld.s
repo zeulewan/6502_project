@@ -36,6 +36,9 @@ reset:
 
 ;end of step 4
 
+    lda #0b00000001
+    jsr lcd_instruction
+
     lda #"H" ; writes H to screen
     jsr print_char
     lda #"e" 
