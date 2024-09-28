@@ -10,6 +10,9 @@ RS = 0b00100000
     .org 0x8000
 
 reset: 
+    ldx #0xff ; init stack pointer
+    txs
+
     lda #0b11111111 ;ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
 
@@ -61,9 +64,6 @@ loop:
     jmp loop
 
 lcd_instruction:
-    ldx #0xff
-    txs
-
     sta PORTB
     lda #0
     sta PORTA
