@@ -12,7 +12,7 @@ Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
 ```./vasm6502_oldstyle -Fbin -dotdir helloworld.s && hexdump -C a.out```
 ##### Ben Eater 6502 current video location
 How assembly language loops work
-2:47
+10:12
 ##### Arduino hook up
 Address lines are in reverse ascending order 
 so are data lines

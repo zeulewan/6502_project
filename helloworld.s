@@ -3,9 +3,10 @@ PORTA = 0x6001
 DDRB = 0x6002
 DDRA = 0x6003
 
-E = 0b10000000
-RW = 0b01000000
-RS = 0b00100000
+; applies to port A
+E = #0b10000000 ;enable
+RW = 0b01000000 ; read/write
+RS = 0b00100000 ; register select
 
     .org 0x8000
 
@@ -56,8 +57,21 @@ reset:
     jsr print_char
 
 
-loop:
-    jmp loop
+end: ; end of code
+    jmp end
+
+lcd_wait:
+    lda #0b00000000;ff Sets all pins on port B to output
+    sta DDRB ; 6002 is register for data direction for register B
+
+    lda #RW
+    sta PORTA
+    lda #( RS | E) 
+    sta PORTA
+    lda PORTB
+
+    lda #0b11111111 ;ff Sets all pins on port B to output
+    sta DDRB ; 6002 is register for data direction for register B
 
 lcd_instruction:
     sta PORTB
