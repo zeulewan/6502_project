@@ -22,21 +22,14 @@ reset:
 
     lda #0b00111000 ; Swt 8-bit mode, 2 line display, and 5x8 font. function set
     jsr lcd_instruction
-
-
 ; end of step 2
-    
     lda #0b00001111 ; display on or off
     jsr lcd_instruction
-
 ; end of step 3
- 
     lda #0b00000110 ; Entry mode set
     jsr lcd_instruction
-
 ;end of step 4
-
-    lda #0b00000001
+    lda #0b00000001 ; clear display
     jsr lcd_instruction
 
     lda #"H" ; writes H to screen
@@ -68,12 +61,12 @@ loop:
 
 lcd_instruction:
     sta PORTB
+    lda #0      ; clear RS/RW/E bits
+    sta PORTA
+    lda #E      ; set E bit to send instruction
+    sta PORTA
     lda #0
-    sta PORTA
-    lda #E
-    sta PORTA
-    lda #0
-    sta PORTA
+    sta PORTA   ; clear RS/RW/E bits
     rts
 
 print_char:
