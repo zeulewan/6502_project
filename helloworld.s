@@ -67,7 +67,7 @@ lcd_wait:
 lcd_busy:
     lda #RW ; load accumulator with operataion to enable write to port A. you would never really want to read from port A, thats for setting the data direction and enabling the screen
     sta PORTA ; register A is still output, but B is input
-    lda #( RS | E) ; enable. since read is enabled, you read
+    lda #( RW | E) ; enable. since read is enabled, you read
     sta PORTA
     lda PORTB
     and #0b10000000
