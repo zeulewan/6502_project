@@ -4,11 +4,11 @@ DDRB = 0x6002
 DDRA = 0x6003
 
 ; applies to port A
-E = #0b10000000 ;enable
-RW = 0b01000000 ; read/write
+E = 0b10000000 ;enable
+RW = 0b01000000 ; read/write, well this sets it to write mode
 RS = 0b00100000 ; register select
 
-    .org 0x8000
+    .org 0x8000 ; sets relative start location
 
 reset: 
     ldx #0xff ; init stack pointer
@@ -64,14 +64,18 @@ lcd_wait:
     lda #0b00000000;ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
 
-    lda #RW
-    sta PORTA
-    lda #( RS | E) 
+    lda #RW ; load accumulator with operataion to read. you would never really want to read from port A, thats for setting the data direction and enabling the screen
+    sta PORTA ; register A is still output, but B is input
+    lda #( RS | E) ; prepare to read
     sta PORTA
     lda PORTB
 
+    lda 
+
     lda #0b11111111 ;ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
+
+    rts
 
 lcd_instruction:
     sta PORTB
@@ -93,6 +97,6 @@ print_char:
     sta PORTA
     rts
 
-    .org 0xfffc
+    .org 0xfffc 
     .word reset
     .word 0x0000
