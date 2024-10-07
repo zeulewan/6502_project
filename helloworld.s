@@ -33,32 +33,20 @@ reset:
     lda #0b00000001 ; clear display
     jsr lcd_instruction
 
-    lda #"H" ; writes H to screen
+    ldx #0
+print_shit    
+    lda message,x
+    beq end
     jsr print_char
-    lda #"e" 
-    jsr print_char
-    lda #"l" 
-    jsr print_char
-    lda #"l" 
-    jsr print_char
-    lda #"o" 
-    jsr print_char
-    lda #" " 
-    jsr print_char
-    lda #"w" 
-    jsr print_char
-    lda #"o" 
-    jsr print_char
-    lda #"r" 
-    jsr print_char
-    lda #"l" 
-    jsr print_char
-    lda #"d" 
-    jsr print_char
+    inx
+    jmp print_shit
+
 
 
 end: ; end of code
     jmp end
+
+message: .asciiz "Hello fart face"
 
 lcd_wait:
     pha
