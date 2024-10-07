@@ -61,25 +61,28 @@ end: ; end of code
     jmp end
 
 lcd_wait:
+    pha
     lda #0b00000000;ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
-
-    lda #RW ; load accumulator with operataion to write. you would never really want to read from port A, thats for setting the data direction and enabling the screen
+lcd_busy:
+    lda #RW ; load accumulator with operataion to enable write to port A. you would never really want to read from port A, thats for setting the data direction and enabling the screen
     sta PORTA ; register A is still output, but B is input
-    lda #( RS | E) ; prepare to read
+    lda #( RS | E) ; enable. since read is enabled, you read
     sta PORTA
     lda PORTB
     and #0b10000000
-    bne lcd_wait ; if zero processor flag is set to 1, loop to lcd_wait
+    bne lcd_busy ; if zero processor flag is set to 1, loop to lcd_wait
 
     lda #RW
     sta PORTA   ; clear RS/RW/E bits
 
     lda #0b11111111 ;ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
+    pla
     rts
 
 lcd_instruction:
+    jsr lcd_wait
     sta PORTB
     lda #0      ; clear RS/RW/E bits
     sta PORTA
@@ -90,6 +93,7 @@ lcd_instruction:
     rts
 
 print_char:
+    jsr lcd_wait
     sta PORTB
     lda RS
     sta PORTA
