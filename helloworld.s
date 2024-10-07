@@ -64,17 +64,19 @@ lcd_wait:
     lda #0b00000000;ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
 
-    lda #RW ; load accumulator with operataion to read. you would never really want to read from port A, thats for setting the data direction and enabling the screen
+    lda #RW ; load accumulator with operataion to write. you would never really want to read from port A, thats for setting the data direction and enabling the screen
     sta PORTA ; register A is still output, but B is input
     lda #( RS | E) ; prepare to read
     sta PORTA
     lda PORTB
+    and #0b10000000
+    bne lcd_wait ; if zero processor flag is set to 1, loop to lcd_wait
 
-    lda 
+    lda #RW
+    sta PORTA   ; clear RS/RW/E bits
 
     lda #0b11111111 ;ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
-
     rts
 
 lcd_instruction:
