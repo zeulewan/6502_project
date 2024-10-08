@@ -4,11 +4,12 @@ PORTA = 0x6001 ; Port A address
 DDRB = 0x6002 ; Data Direction Register for Port B address
 DDRA = 0x6003 ; Data Direction Register for Port A address
 
-; Define constants
-VALUE_SIZE = 2 ; Size of the value in bytes (16 bits)
-MOD10_VALUE = 0x0202 ; Value to be stored in mod10 register
+E = 0b10000000 ;enable
+RW = 0b01000000 ; read/write, well this sets it to write mode
+RS = 0b00100000 ; register select
 
-; Organize code into sections
+value= 0x0200
+mod10 = 0x0202
 
 ; Reset routine
     .org 0x8000 ; Set relative start location
@@ -36,12 +37,13 @@ reset:
     jsr lcd_instruction
 
 
-    lda number ; Loads the lower 8 bits of the 16-bit number into the accumulator.
+; beignning of the conversion
+    lda number ; Loads the lower 8 bits of the 16-bit number into the accumulator aka a register
     sta value
-    lda #number + 1 ; Loads upper byte of value into accumulator
+    lda number + 1 ; Loads upper byte of value into accumulator
     sta value + 1
 
-    sta #0
+    lda #0 
     lda mod10
     sta mod10 + 1
 
@@ -50,12 +52,13 @@ reset:
 end: ; end of code
     jmp end
 
-number: .word 1729
+number: .word 1729 ; 1729 is the number to be converted to decimal
 
 lcd_wait:
-    pha
+    pha ; push accumulator to stack
     lda #0b00000000;ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
+
 lcd_busy:
     lda #RW ; load accumulator with operataion to enable write to port A. you would never really want to read from port A, thats for setting the data direction and enabling the screen
     sta PORTA ; register A is still output, but B is input
@@ -68,9 +71,9 @@ lcd_busy:
     lda #RW
     sta PORTA   ; clear RS/RW/E bits
 
-    lda #0b11111111 ;ff Sets all pins on port B to output
+    lda #0b11111111 ; ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
-    pla
+    pla ; pull accumulator from stack
     rts
 
 lcd_instruction:

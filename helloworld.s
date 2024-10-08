@@ -33,13 +33,13 @@ reset:
     lda #0b00000001 ; clear display
     jsr lcd_instruction
 
-    ldx #0
-print_loop    
+    
+print_message    
     lda message,x
     beq end
     jsr print_char
     inx
-    jmp print_loop
+    jmp print_message
 
 
 
@@ -68,7 +68,7 @@ lcd_busy:
     sta DDRB ; 6002 is register for data direction for register B
     pla
     rts
-
+; test
 lcd_instruction:
     jsr lcd_wait
     sta PORTB
