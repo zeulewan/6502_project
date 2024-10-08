@@ -34,19 +34,19 @@ reset:
     jsr lcd_instruction
 
     ldx #0
-print_shit    
+print_loop    
     lda message,x
     beq end
     jsr print_char
     inx
-    jmp print_shit
+    jmp print_loop
 
 
 
 end: ; end of code
     jmp end
 
-message: .asciiz "Hello fart face"
+message: .asciiz "Hello world"
 
 lcd_wait:
     pha
