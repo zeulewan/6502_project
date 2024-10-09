@@ -77,6 +77,8 @@ oco config set OCO_API_URL=http://localhost:11434/api/chat
 - im trying out cursor now. its vs code with continue but a bit better because it uses cursor tab
 
 #### Binary to decimal notes
+The operation performed by SBC is:
+A = A - M - (1 - C)
 
 Case 1: Carry Flag Initially Set (C = 1)
 
