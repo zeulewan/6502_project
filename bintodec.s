@@ -51,7 +51,7 @@ reset:
     clc
 
 
-    ldx #16
+    ldx #16 ; load x register with ascii 16
 divloop:
     ; rotate quotient and remainder
     rol value
@@ -59,26 +59,29 @@ divloop:
     rol mod10
     rol mod10 + 1
 
-    ; a,y = dividend - divisor
-    sec
+    ; a,y = dividend - divisor:
+    sec ; set carry 1
     lda mod10 
-    sbc #10
+    sbc #10 ; subtract 10
     tay ; save low byte in y
     lda mod10 + 1
-    bcc ignore_result
-    sty mod10
+    sbc #0
+    bcc ignore_result ; branch if dividend < divisor
+    sty mod10  
     sta mod10 + 1
     
 
 
 ignore_result:
-    dex
-    bne divloop
+    dex ; decrement x register
+    bne divloop ; branch if zero flag is not set, aka brach not equal. a reg is not zero
+    rol value 
+    rol value + 1
 
     lda mod10 
-    clc
-    adc #"0"
-    print_char
+    clc ; clear carry
+    adc #"0" ; not sure how adding a zero to the a register works 
+    jsr print_char
 
 end: ; end of code
     jmp end
