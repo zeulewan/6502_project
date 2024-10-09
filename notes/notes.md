@@ -75,3 +75,19 @@ oco config set OCO_API_URL=http://localhost:11434/api/chat
 0x8000 - 0xffff = ROM
 
 - im trying out cursor now. its vs code with continue but a bit better because it uses cursor tab
+
+#### Binary to decimal notes
+
+Case 1: Carry Flag Initially Set (C = 1)
+
+    Initial State: A = 0, M = 0, C = 1.
+    Operation: A = 0 - 0 - (1 - 1) = 0 - 0 - 0 = 0.
+    Result: A = 0.
+    Carry Flag: Since the result is zero (non-negative), the Carry flag remains set (C = 1).
+
+Case 2: Carry Flag Initially Clear (C = 0)
+
+    Initial State: A = 0, M = 0, C = 0.
+    Operation: A = 0 - 0 - (1 - 0) = 0 - 0 - 1 = -1.
+    Result: A = 255 (since -1 in 8-bit unsigned arithmetic is represented as 255).
+    Carry Flag: Since the result is negative (in terms of signed interpretation), the Carry flag remains clear (C = 0).
