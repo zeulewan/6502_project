@@ -38,16 +38,47 @@ reset:
 
 
 ; beignning of the conversion
+
     lda number ; Loads the lower 8 bits of the 16-bit number into the accumulator aka a register
     sta value
     lda number + 1 ; Loads upper byte of value into accumulator
     sta value + 1
 
+    ; init remainder to zero 
     lda #0 
     lda mod10
     sta mod10 + 1
+    clc
 
 
+    ldx #16
+divloop:
+    ; rotate quotient and remainder
+    rol value
+    rol value + 1
+    rol mod10
+    rol mod10 + 1
+
+    ; a,y = dividend - divisor
+    sec
+    lda mod10 
+    sbc #10
+    tay ; save low byte in y
+    lda mod10 + 1
+    bcc ignore_result
+    sty mod10
+    sta mod10 + 1
+    
+
+
+ignore_result:
+    dex
+    bne divloop
+
+    lda mod10 
+    clc
+    adc #"0"
+    print_char
 
 end: ; end of code
     jmp end
