@@ -65,7 +65,7 @@ divloop:
     sbc #10 ; subtract 10
     tay ; save low byte in y
     lda mod10 + 1
-    sbc #0 ; subtract 0. since it's a subtract with carry, a reg ends up in 255 if carry is 0
+    sbc #0 ; subtract 0. since it's a subtract with carry, a reg ends up in 255 if carry is 0 from previous subtraction
     bcc ignore_result ; branch if dividend < divisor
     sty mod10  
     sta mod10 + 1
