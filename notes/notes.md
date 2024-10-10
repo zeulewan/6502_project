@@ -11,8 +11,7 @@ Compiled with: ```make CPU=6502 SYNTAX=oldstyle```
 Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
 ```./vasm6502_oldstyle -Fbin -dotdir helloworld.s && hexdump -C a.out```
 ##### Ben Eater 6502 current video location
-Converting binary to decimal 
-00:00
+[Hardware interrupts](https://www.youtube.com/watch?v=DlEa8kd7n3Q&list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH&index=11)
 ##### Arduino hook up
 Address lines are in reverse ascending order 
 so are data lines
