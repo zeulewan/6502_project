@@ -86,8 +86,16 @@ ignore_result:
     jsr push_char
 
     lda value 
-    ora value + 1
-    bne divide
+    ora value + 1 
+    bne divide ; this says if there is still shit to divide, keep looping
+
+    ldx #0
+print_message    ; from helloworld.s program
+    lda message,x
+    beq end
+    jsr print_char
+    inx
+    jmp print_message
 
 end: ; end of code
     jmp end
