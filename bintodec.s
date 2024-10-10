@@ -8,8 +8,9 @@ E = 0b10000000 ;enable
 RW = 0b01000000 ; read/write, well this sets it to write mode
 RS = 0b00100000 ; register select
 
-value= 0x0200
-mod10 = 0x0202
+value= 0x0200 ; 2 bytes
+mod10 = 0x0202 ; 2 bytes
+message = 0x0204 ; 6 bytes
 
 ; Reset routine
     .org 0x8000 ; Set relative start location
@@ -36,6 +37,8 @@ reset:
     lda #0b00000001 ; Clear display
     jsr lcd_instruction
 
+    lda #0
+    sta message
 
 ; beignning of the conversion
 
@@ -48,7 +51,7 @@ reset:
 divide:
     ; init remainder to zero 
     lda #0 
-    lda mod10
+    sta mod10
     sta mod10 + 1
     clc
 
@@ -79,8 +82,8 @@ ignore_result:
 
     lda mod10 
     clc ; clear carry
-    adc #"0" ; not sure how adding a zero to the a register works 
-    jsr print_char
+    adc #"0" ; adding 0 converts it to an ascii number
+    jsr push_char
 
     lda value 
     ora value + 1
@@ -90,6 +93,23 @@ end: ; end of code
     jmp end
 
 number: .word 1729 ; 1729 is the number to be converted to decimal
+
+push_char:
+    pha             ; push a reg to stack
+    ldy #0          ; load y reg with 0
+
+char_loop
+    lda message,y   ; load a reg with message bit
+    tax             ; transfer a reg to x reg
+    pla             ; pull stack to a reg
+    sta message,y   ; store a reg in message bit
+    iny
+    txa             ; where is null terminator coming from
+    pha
+    bne char_loop
+
+    pla
+    sta message, y
 
 lcd_wait:
     pha ; push accumulator to stack
