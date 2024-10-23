@@ -52,7 +52,9 @@ oco config set OCO_API_URL=http://localhost:11434/api/chat
 - ![alt text](2.png)
 - I suppose it's okay if the addresses are not valid and the write enable pin gets set 
 
-- [this reddit post with the memory map was good ](https://www.reddit.com/r/beneater/comments/doytpo/6502_project_memory_map/) 0x0000 - 0x3fff = RAM
+- [this reddit post with the memory map was good ](https://www.reddit.com/r/beneater/comments/doytpo/6502_project_memory_map/) 
+
+0x0000 - 0x3fff = RAM
 0x4000 - 0x5fff = Open Bus (Invalid Memory Addresses)
 0x6000 = I/O Register B
 0x6001 = I/O Register A
