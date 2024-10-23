@@ -8,9 +8,13 @@ E = 0b10000000 ;enable
 RW = 0b01000000 ; read/write, well this sets it to write mode
 RS = 0b00100000 ; register select
 
+
+
 value= 0x0200 ; 2 bytes
 mod10 = 0x0202 ; 2 bytes
 message = 0x0204 ; 6 bytes
+counter = 0x020a ; 2 bytes
+
 
 ; Reset routine
     .org 0x8000 ; Set relative start location
