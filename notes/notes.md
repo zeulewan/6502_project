@@ -1,17 +1,21 @@
 ## Notes from 6502 project
 
+##### [Software for assembling](http://sun.hasenbraten.de/vasm/)
+Compile with: ```make CPU=6502 SYNTAX=oldstyle```
+
+Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
+```./vasm6502_oldstyle -Fbin -dotdir helloworld.s && hexdump -C a.out```
+
 ##### Command to program eeprom:
-```minipro -p 28C256 -uP -w rom.bin```
+```minipro -p 28C256 -uP -w a.out```
 
 ##### Command to display binary file:
 ```hexdump -C rom.bin```
 
-##### [Software for assembling](http://sun.hasenbraten.de/vasm/)
-Compiled with: ```make CPU=6502 SYNTAX=oldstyle```
-Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
-```./vasm6502_oldstyle -Fbin -dotdir helloworld.s && hexdump -C a.out```
+
 ##### Ben Eater 6502 current video location
 [Hardware interrupts](https://www.youtube.com/watch?v=DlEa8kd7n3Q&list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH&index=11)
+
 ##### Arduino hook up
 Address lines are in reverse ascending order 
 so are data lines

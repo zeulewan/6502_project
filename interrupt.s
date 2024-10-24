@@ -21,7 +21,9 @@ counter = 0x020a ; 2 bytes
 reset: 
     ; Initialize stack pointer
     ldx #0xff
-    txs
+    txs 
+
+    cli ; clear interrupt disable bit
 
     ; Enable output on Port B for all pins
     lda #0b11111111 ; ff Sets all pins on port B to output
@@ -42,13 +44,21 @@ reset:
     jsr lcd_instruction
 
     lda #0
+    sta counter
+    sta counter + 1
+
+loop:
+    lda #0b00000010 ; Home cursor
+    jsr lcd_instruction
+
+    lda #0
     sta message
 
 ; beignning of the conversion
 
-    lda number ; Loads the lower 8 bits of the 16-bit number into the accumulator aka a register
+    lda counter ; Loads the lower 8 bits of the 16-bit number into the accumulator aka a register
     sta value
-    lda number + 1 ; Loads upper byte of value into accumulator
+    lda counter + 1 ; Loads upper byte of value into accumulator
     sta value + 1
 
 
@@ -96,13 +106,11 @@ ignore_result:
     ldx #0
 print_message    ; from helloworld.s program
     lda message,x
-    beq end
+    beq loop
     jsr print_char
     inx
     jmp print_message
 
-end: ; end of code
-    jmp end
 
 number: .word 1729 ; 1729 is the number to be converted to decimal
 
@@ -122,6 +130,7 @@ char_loop
 
     pla
     sta message, y
+    rts
 
 lcd_wait:
     pha ; push accumulator to stack
@@ -169,7 +178,7 @@ print_char:
     rts
 
 nmi:
-    rts
+    rti
 
 irq: 
     inc counter 
@@ -177,7 +186,7 @@ irq:
     inc counter + 1
 
 exit_irq:
-    rts
+    rti
 
 
 
