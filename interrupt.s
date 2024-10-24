@@ -3,6 +3,9 @@ PORTB = 0x6000 ; Port B address
 PORTA = 0x6001 ; Port A address
 DDRB = 0x6002 ; Data Direction Register for Port B address
 DDRA = 0x6003 ; Data Direction Register for Port A address
+PCR = 0x600c ; peripheral control register
+IFR = 0x600d ; intettupt flag register
+IER = 0x600e ;interrput enable register
 
 E = 0b10000000 ;enable
 RW = 0b01000000 ; read/write, well this sets it to write mode
@@ -22,8 +25,12 @@ reset:
     ; Initialize stack pointer
     ldx #0xff
     txs 
-
     cli ; clear interrupt disable bit
+
+    lda #0x82
+    sta IER
+    lda #00
+    sta PCR
 
     ; Enable output on Port B for all pins
     lda #0b11111111 ; ff Sets all pins on port B to output
@@ -179,13 +186,28 @@ print_char:
 
 nmi:
 irq: 
+    pha 
+    txa
+    pha
+
     inc counter 
     bne exit_irq
     inc counter + 1
+
 exit_irq:
+
+    ldx #0xff
+delay:    
+    dex
+    bne delay
+
+    bit PORTA  
+
+    pla
+    tax
+    pla
+
     rti
-
-
 
     .org 0xfffa
     .word nmi
