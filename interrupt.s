@@ -55,12 +55,12 @@ loop:
     sta message
 
 ; beignning of the conversion
-
+    sei
     lda counter ; Loads the lower 8 bits of the 16-bit number into the accumulator aka a register
     sta value
     lda counter + 1 ; Loads upper byte of value into accumulator
     sta value + 1
-
+    cli
 
 divide:
     ; init remainder to zero 

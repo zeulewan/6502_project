@@ -14,7 +14,7 @@ Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
 
 
 ##### Ben Eater 6502 current video location
-[Hardware interrupts](https://www.youtube.com/watch?v=DlEa8kd7n3Q&list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH&index=11)
+Interrupt handling
 
 ##### Arduino hook up
 Address lines are in reverse ascending order 
