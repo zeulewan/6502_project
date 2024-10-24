@@ -178,13 +178,10 @@ print_char:
     rts
 
 nmi:
-    rti
-
 irq: 
     inc counter 
     bne exit_irq
     inc counter + 1
-
 exit_irq:
     rti
 
