@@ -25,10 +25,10 @@ reset:
     ; Initialize stack pointer
     ldx #0xff
     txs 
-    cli ; clear interrupt disable bit
+    cli ; clear interrupt disable bitk
 
     lda #0x82
-    sta IER
+    sta IER ; =this is setting interrupt active direction
     lda #00
     sta PCR
 

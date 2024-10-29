@@ -98,3 +98,6 @@ Case 2: Carry Flag Initially Clear (C = 0)
     Operation: A = 0 - 0 - (1 - 0) = 0 - 0 - 1 = -1.
     Result: A = 255 (since -1 in 8-bit unsigned arithmetic is represented as 255).
     Carry Flag: Since the result is negative (in terms of signed interpretation), the Carry flag remains clear (C = 0).
+
+#### interrupt notes
+the reason we're using the VIA for the interrupt is because you can kind of do software debouncing with it 
