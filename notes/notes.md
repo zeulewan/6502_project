@@ -14,8 +14,7 @@ Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
 
 
 ##### Ben Eater 6502 current video location
-Interrupt handling
-
+Keyboard interface hardware
 ##### Arduino hook up
 Address lines are in reverse ascending order 
 so are data lines
