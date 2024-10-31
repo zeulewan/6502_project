@@ -3,7 +3,7 @@ PORTB = 0x6000 ; Port B address
 PORTA = 0x6001 ; Port A address
 DDRB = 0x6002 ; Data Direction Register for Port B address
 DDRA = 0x6003 ; Data Direction Register for Port A address
-PCR = 0x600c ; peripheral control register
+PCR = 0x600c ; peripheral control register on 6522
 IFR = 0x600d ; intettupt flag register
 IER = 0x600e ;interrput enable register
 
@@ -36,12 +36,14 @@ reset:
     lda #0b11111111 ; ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
 
-    ; Set some Port A pins to output (right-to-left, highest bits first)
-    lda #0b11100000 
+    ; Set Port A pins to input (right-to-left, highest bits first)
+    lda #0b00000000 
     sta DDRA
 
+    jsr lcd_init
+
     ; Configure LCD display settings
-    lda #0b00111000 ; Set 8-bit mode, 2 line display, and 5x8 font. function set
+    lda #0b00101000 ; Set 4-bit mode, 2 line display, and 5x8 font. function set
     jsr lcd_instruction
     lda #0b00001111 ; Display on or off
     jsr lcd_instruction
@@ -160,6 +162,15 @@ lcd_busy:
     sta DDRB ; 6002 is register for data direction for register B
     pla ; pull accumulator from stack
     rts
+
+lcd_init:
+  lda #%00000010 ; Set 4-bit mode
+  sta PORTB
+  ora #E
+  sta PORTB
+  and #%00001111
+  sta PORTB
+  rts
 
 lcd_instruction:
     jsr lcd_wait
