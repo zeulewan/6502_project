@@ -4,7 +4,7 @@ PORTA = 0x6001 ; Port A address
 DDRB = 0x6002 ; Data Direction Register for Port B address
 DDRA = 0x6003 ; Data Direction Register for Port A address
 PCR = 0x600c ; peripheral control register on 6522
-IFR = 0x600d ; intettupt flag register
+IFR = 0x600d ; interrupt flag register
 IER = 0x600e ;interrput enable register
 
 E = 0b10000000 ;enable
