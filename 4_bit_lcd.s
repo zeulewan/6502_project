@@ -1,20 +1,18 @@
 ; Define port addresses
-PORTB = 0x6000 ; Port B address
-PORTA = 0x6001 ; Port A address
-DDRB = 0x6002 ; Data Direction Register for Port B address
-DDRA = 0x6003 ; Data Direction Register for Port A address
-PCR = 0x600c ; peripheral control register on 6522
-IFR = 0x600d ; interrupt flag register
-IER = 0x600e ;interrput enable register
+PORTB = 0x6000 ; Port B
+PORTA = 0x6001 ; Port A
+DDRB = 0x6002  ; Data Direction Register B
+DDRA = 0x6003  ; Data Direction Register A
+PCR = 0x600c   ; Peripheral Control Register
+IFR = 0x600d   ; Interrupt Flag Register
+IER = 0x600e   ; Interrupt Enable Register
 
-E = 0b10000000 ;enable
-RW = 0b01000000 ; read/write, well this sets it to write mode
-RS = 0b00100000 ; register select
+E = 0b10000000  ; Enable
+RW = 0b01000000 ; Read/Write (0 = write)
+RS = 0b00100000 ; Register Select
 
-
-
-value= 0x0200 ; 2 bytes
-mod10 = 0x0202 ; 2 bytes
+value = 0x0200   ; 2 bytes
+mod10 = 0x0202   ; 2 bytes
 message = 0x0204 ; 6 bytes
 counter = 0x020a ; 2 bytes
 
@@ -25,29 +23,29 @@ reset:
     ; Initialize stack pointer
     ldx #0xff
     txs 
-    cli ; clear interrupt disable bitk
+    cli ; Clear interrupt disable bit
 
     lda #0x82
-    sta IER ; =this is setting interrupt active direction
+    sta IER ; Set interrupt enable
     lda #00
     sta PCR
 
-    ; Enable output on Port B for all pins
-    lda #0b11111111 ; ff Sets all pins on port B to output
-    sta DDRB ; 6002 is register for data direction for register B
+    ; Set Port B pins to output
+    lda #0b11111111 
+    sta DDRB
 
-    ; Set Port A pins to input (right-to-left, highest bits first)
+    ; Set Port A pins to input
     lda #0b00000000 
     sta DDRA
 
     jsr lcd_init
 
-    ; Configure LCD display settings
-    lda #0b00101000 ; Set 4-bit mode, 2 line display, and 5x8 font. function set
+    ; Configure LCD display
+    lda #0b00101000 ; 4-bit mode, 2 lines, 5x8 font
     jsr lcd_instruction
-    lda #0b00001111 ; Display on or off
+    lda #0b00001111 ; Display on
     jsr lcd_instruction
-    lda #0b00000110 ; Entry mode set
+    lda #0b00000110 ; Entry mode
     jsr lcd_instruction
     lda #0b00000001 ; Clear display
     jsr lcd_instruction
@@ -63,16 +61,16 @@ loop:
     lda #0
     sta message
 
-; beignning of the conversion
+; Begin number conversion
     sei
-    lda counter ; Loads the lower 8 bits of the 16-bit number into the accumulator aka a register
+    lda counter     ; Load lower byte
     sta value
-    lda counter + 1 ; Loads upper byte of value into accumulator
+    lda counter + 1 ; Load upper byte
     sta value + 1
     cli
 
 divide:
-    ; init remainder to zero 
+    ; Initialize remainder
     lda #0 
     sta mod10
     sta mod10 + 1
@@ -80,7 +78,7 @@ divide:
 
     ldx #16 ; load x register with ascii 16
 divloop:
-    ; rotate quotient and remainder
+    ; Rotate quotient and remainder
     rol value
     rol value + 1
     rol mod10
@@ -113,7 +111,7 @@ ignore_result:
     bne divide ; this says if there is still shit to divide, keep looping
 
     ldx #0
-print_message    ; from helloworld.s program
+print_message:
     lda message,x
     beq loop
     jsr print_char
@@ -124,8 +122,8 @@ print_message    ; from helloworld.s program
 number: .word 1729 ; 1729 is the number to be converted to decimal
 
 push_char:
-    pha             ; push a reg to stack
-    ldy #0          ; load y reg with 0
+    pha
+    ldy #0
 
 char_loop
     lda message,y   ; load a reg with message bit
@@ -143,7 +141,7 @@ char_loop
 
 lcd_wait:
     pha ; push accumulator to stack
-    lda #0b11110000;ff Sets all pins on port B to output
+    lda #0b11110000; 0 input, 1 output. outputting to r/w pins
     sta DDRB ; 6002 is register for data direction for register B
 
 lcd_busy:
@@ -193,8 +191,7 @@ lcd_instruction: ; changed for 4 bit LCD operation
     sta PORTB
     rts
 
- 
-; Print a character on the LCD display
+; Print character on LCD
 print_char:
     jsr lcd_wait
     pha 
