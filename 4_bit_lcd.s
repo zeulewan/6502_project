@@ -143,7 +143,7 @@ char_loop
 
 lcd_wait:
     pha ; push accumulator to stack
-    lda #0b00000000;ff Sets all pins on port B to output
+    lda #0b11110000;ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
 
 lcd_busy:
@@ -172,27 +172,51 @@ lcd_init:
   sta PORTB
   rts
 
-lcd_instruction:
+lcd_instruction: ; changed for 4 bit LCD operation 
     jsr lcd_wait
+    pha
+    lsr 
+    lsr
+    lsr ; logical shift right. not rotate right. fills left bit with zero 0010 1000 -> 0000 0010
+    lsr
     sta PORTB
-    lda #0      ; clear RS/RW/E bits
-    sta PORTA
-    lda #E      ; Set E bit to send instruction
-    sta PORTA
-    lda #0
-    sta PORTA   ; Clear RS/RW/E bits after instruction send
+    ora #E ; 10000000 or 1000 0010 -> 1000 0010
+    sta PORTB
+    eor #E         ; Clear E bit
+    sta PORTB
+    pla
+    and #%00001111 ; Send low 4 bits
+    sta PORTB
+    ora #E         ; Set E bit to send instruction
+    sta PORTB
+    eor #E         ; Clear E bit
+    sta PORTB
     rts
+
  
 ; Print a character on the LCD display
 print_char:
     jsr lcd_wait
+    pha 
+    lsr
+    lsr 
+    lsr 
+    lsr
+    ora #RS
     sta PORTB
-    lda #RS ; Load register select value to Port A
-    sta PORTA
-    lda #( RS | E)
-    sta PORTA
-    lda RS
-    sta PORTA
+    ora #E
+    sta PORTB
+    eor #E
+    sta PORTB
+
+    pla 
+    and #%00001111 
+    ora #RS
+    sta PORTB
+    ora #E
+    sta PORTB 
+    eor #E          ; possible to just send all zeros
+    sta PORTB
     rts
 
 nmi:
