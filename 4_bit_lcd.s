@@ -19,10 +19,10 @@ counter = 0x020a ; 2 bytes
 
 ; Reset routine
     .org 0x8000 ; Set relative start location
-reset: 
+reset:
     ; Initialize stack pointer
     ldx #0xff
-    txs 
+    txs
     cli ; Clear interrupt disable bit
 
     lda #0x82
@@ -31,11 +31,11 @@ reset:
     sta PCR
 
     ; Set Port B pins to output
-    lda #0b11111111 
+    lda #0b11111111
     sta DDRB
 
     ; Set Port A pins to input
-    lda #0b00000000 
+    lda #0b00000000
     sta DDRA
 
     jsr lcd_init
@@ -71,7 +71,7 @@ loop:
 
 divide:
     ; Initialize remainder
-    lda #0 
+    lda #0
     sta mod10
     sta mod10 + 1
     clc
@@ -86,22 +86,22 @@ divloop:
 
     ; a,y = dividend - divisor:
     sec ; set carry 1
-    lda mod10 
+    lda mod10
     sbc #10 ; subtract 10
     tay ; save low byte in y
     lda mod10 + 1
     sbc #0 ; subtract 0. since it's a subtract with carry, a reg ends up in 255 if carry is 0 from previous subtraction. SBC inverts C and subtracts it
-    bcc ignore_result ; branch if dividend < divisor. branch if carry = 0 
-    sty mod10  
+    bcc ignore_result ; branch if dividend < divisor. branch if carry = 0
+    sty mod10
     sta mod10 + 1
     
 ignore_result:
     dex ; decrement x register
     bne divloop ; branch if zero flag is not set, aka brach not equal. a reg is not zero question: why isn't it just a bcc divloop?
-    rol value 
+    rol value
     rol value + 1
 
-    lda mod10 
+    lda mod10
     clc ; clear carry
     adc #"0" ; adding 0 converts it to an ascii number
     jsr push_char
@@ -141,24 +141,32 @@ char_loop
 
 lcd_wait:
     pha ; push accumulator to stack
-    lda #0b11110000; 0 input, 1 output. outputting to r/w pins
-    sta DDRB ; 6002 is register for data direction for register B
+    lda #0b11110000; 1 output, 0 input. outputting to control pins
+    sta DDRB 
 
 lcd_busy:
-    lda #RW ; load accumulator with operataion to enable write to port A. you would never really want to read from port A, thats for setting the data direction and enabling the screen
-    sta PORTA ; register A is still output, but B is input
-    lda #( RW | E) ; enable. since read is enabled, you read
-    sta PORTA
+    lda #RW ; tells LCD to output
+    sta PORTB 
+    lda #(RW | E)
+    sta PORTB
     lda PORTB
-    and #0b10000000
+    pha
+
+    lda #RW 
+    sta PORTB 
+    lda #(RW | E)
+    sta PORTB
+    lda PORTB
+    pla
+
+    and #0b00001000
     bne lcd_busy ; if zero processor flag is set to 1, loop to lcd_wait
 
     lda #RW
-    sta PORTA   ; clear RS/RW/E bits
-
+    sta PORTB   ; clear RS/RW/E bits
     lda #0b11111111 ; ff Sets all pins on port B to output
     sta DDRB ; 6002 is register for data direction for register B
-    pla ; pull accumulator from stack
+    pla ; pull to accumulator from stack
     rts
 
 lcd_init:
