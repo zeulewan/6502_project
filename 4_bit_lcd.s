@@ -151,14 +151,12 @@ lcd_busy:
     sta PORTB
     lda PORTB
     pha
-
     lda #RW 
     sta PORTB 
     lda #(RW | E)
     sta PORTB
     lda PORTB
     pla
-
     and #0b00001000
     bne lcd_busy ; if zero processor flag is set to 1, loop to lcd_wait
 
