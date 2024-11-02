@@ -168,6 +168,27 @@ lcd_busy:
     rts
 
 lcd_init:
+  lda #%00000011 ; 1st Set 8-bit mode
+  sta PORTB
+  ora #E
+  sta PORTB
+  and #%00001111
+  sta PORTB
+
+  lda #%00000011 ; 2nd Set 8-bit mode
+  sta PORTB
+  ora #E
+  sta PORTB
+  and #%00001111
+  sta PORTB
+
+  lda #%00000011 ; 3rd Set 8-bit mode
+  sta PORTB
+  ora #E
+  sta PORTB
+  and #%00001111
+  sta PORTB
+
   lda #%00000010 ; Set 4-bit mode
   sta PORTB
   ora #E
@@ -234,10 +255,6 @@ irq:
 
 exit_irq:
 
-    ldx #0xff
-delay:    
-    dex
-    bne delay
 
     bit PORTA  
 
