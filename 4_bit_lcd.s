@@ -27,7 +27,7 @@ reset:
 
     lda #0x82
     sta IER ; Set interrupt enable
-    lda #00
+    lda #01
     sta PCR
 
     ; Set Port B pins to output
@@ -119,7 +119,8 @@ print_message:
     jmp print_message
 
 
-number: .word 1729 ; 1729 is the number to be converted to decimal
+; number: .word 1729 ; 1729 is the number to be converted to decimal,
+; counter used to be replaced with number
 
 push_char:
     pha
@@ -244,24 +245,12 @@ print_char:
     rts
 
 nmi:
+    rti
 irq: 
-    pha 
-    txa
     pha
-
-    inc counter 
-    bne exit_irq
-    inc counter + 1
-
-exit_irq:
-
-
-    bit PORTA  
-
+    lda counter
+    sta counter
     pla
-    tax
-    pla
-
     rti
 
     .org 0xfffa
