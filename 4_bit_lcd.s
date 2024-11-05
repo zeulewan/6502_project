@@ -17,7 +17,7 @@ message  = 0x0204  ; 6 bytes to store output message
 counter  = 0x020a  ; 2 bytes for counter storage
 
 ; Reset routine
-.org 0x8000      ; Set reset vector starting location
+    .org 0x8000      ; Set reset vector starting location
 
 reset:
     ; Initialize stack pointer
@@ -253,7 +253,7 @@ irq:
 nmi:
     rti
 
-.org 0xfffa
-.word nmi
-.word reset
-.word irq
+    .org 0xfffa
+    .word nmi
+    .word reset
+    .word irq
