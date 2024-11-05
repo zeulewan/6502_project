@@ -7,8 +7,11 @@ PCR   = 0x600c  ; Peripheral Control Register
 IFR   = 0x600d  ; Interrupt Flag Register
 IER   = 0x600e  ; Interrupt Enable Register
 
-kb_wptr = 0x0001
+kb_wptr = 0x0000
 kb_rptr = 0x0001
+kb_flags = 0x0002
+
+RELEASE = 0b00000001
 
 kb_buffer = 0x0200 ;256 byte kb buffer 0200-02ff
 
@@ -53,94 +56,24 @@ reset:
     lda #0b00000001 ; Clear display
     jsr lcd_instruction
 
-    lda #0
-    sta counter
-    sta counter + 1
+    lda #0x00
+    sta kb_rptr
+    sta kb_wptr
 
-loop:
-    lda #0b00000010 ; Move cursor to home position
-    jsr lcd_instruction
-
-    lda #0
-    sta message     ; Clear message buffer
-
-; Start decimal conversion process
+loop: 
     sei
-    lda counter     ; Load lower byte of counter
-    sta value
-    lda counter + 1 ; Load upper byte of counter
-    sta value + 1
+    lda kb_rptr
+    cmp kb_wptr
     cli
+    bne key_pressed
+    jmp loop
 
-divide:
-    ; Initialize remainder to zero
-    lda #0
-    sta mod10
-    sta mod10 + 1
-    clc
-
-    ldx #16         ; Set X register to process 16 bits
-
-divloop:
-    ; Rotate quotient and remainder bits
-    rol value
-    rol value + 1
-    rol mod10
-    rol mod10 + 1
-
-    ; Subtract divisor (10) from dividend
-    sec             ; Set carry for subtraction
-    lda mod10
-    sbc #10         ; Subtract 10 from mod10
-    tay             ; Save low byte of remainder in Y
-    lda mod10 + 1
-    sbc #0          ; Subtract zero from high byte with carry
-    bcc ignore_result ; Branch if result is negative
-
-    sty mod10       ; Store remainder in mod10
-    sta mod10 + 1   ; Store high byte
-
-ignore_result:
-    dex             ; Decrement X register
-    bne divloop     ; Continue if X is not zero
-    rol value       ; Rotate final bits in value
-    rol value + 1
-
-    lda mod10
-    clc
-    adc #"0"        ; Convert to ASCII
-    jsr push_char
-
-    lda value 
-    ora value + 1 
-    bne divide      ; Continue division if value is non-zero
-
-    ldx #0
-print_message:
-    lda message,x
-    beq loop        ; Loop if end of message
+key_pressed
+    ldx kb_rptr
+    lda kb_buffer, x
     jsr print_char
-    inx
-    jmp print_message
-
-; Push character to message buffer
-push_char:
-    pha
-    ldy #0
-
-char_loop:
-    lda message,y   ; Load current byte in message buffer
-    tax
-    pla
-    sta message,y   ; Store accumulator in message buffer
-    iny
-    txa
-    pha
-    bne char_loop
-
-    pla
-    sta message, y
-    rts
+    inc kb_rptr
+    jmp loop
 
 lcd_wait:
     pha
@@ -245,17 +178,47 @@ print_char:
     sta PORTB
     rts
  
-irq: 
+keyboard_interrupt: 
+    pha
+    txa
     pha
     lda PORTA
-    sta counter
+    tax 
+    lda keymap, x
+    ldx kb_wptr
+    sta kb_buffer, x
+    inc kb_wptr
+    pla
+    tax
     pla
     rti
 
 nmi:
     rti
 
+    .org 0xfe00
+
+keymap:
+  .byte "????????????? `?"      ; 00-0F
+  .byte "?????q1???zsaw2?"      ; 10-1F
+  .byte "?cxde43?? vftr5?"      ; 20-2F
+  .byte "?nbhgy6???mju78?"      ; 30-3F
+  .byte "?,kio09??./l;p-?"      ; 40-4F
+  .byte "??'?[=?????]?\??"      ; 50-5F
+  .byte "?????????1?47???"      ; 60-6F
+  .byte "0.2568???+3-*9??"      ; 70-7F
+  .byte "????????????????"      ; 80-8F
+  .byte "????????????????"      ; 90-9F
+  .byte "????????????????"      ; A0-AF
+  .byte "????????????????"      ; B0-BF
+  .byte "????????????????"      ; C0-CF
+  .byte "????????????????"      ; D0-DF
+  .byte "????????????????"      ; E0-EF
+  .byte "????????????????"      ; F0-FF
+
+
+
     .org 0xfffa
     .word nmi
     .word reset
-    .word irq
+    .word keyboard_interrupt
