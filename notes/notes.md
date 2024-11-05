@@ -4,7 +4,7 @@
 Compile with: ```make CPU=6502 SYNTAX=oldstyle```
 
 Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
-```./vasm6502_oldstyle -Fbin -dotdir helloworld.s && hexdump -C a.out```
+```./vasm6502_oldstyle -Fbin -dotdir <example>.s && hexdump -C a.out```
 
 ##### Command to program eeprom:
 ```minipro -p 28C256 -uP -w a.out```
