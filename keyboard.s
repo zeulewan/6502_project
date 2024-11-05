@@ -182,12 +182,35 @@ keyboard_interrupt:
     pha
     txa
     pha
+
+    lda kb_flags
+    and #RELEASE
+    beq read_key
+
+    lda kb_flags ; can skip loading again
+    eor #RELEASE
+    sta kb_flags 
+    lda PORTA    ; can just do a bit PORTA
+    jmp exit
+
+read_key:
     lda PORTA
+    cmp #0xf0
+    beq key_release
+    
     tax 
     lda keymap, x
     ldx kb_wptr
     sta kb_buffer, x
     inc kb_wptr
+    jmp exit
+
+key_release:
+    lda kb_flags
+    ora #RELEASE 
+    sta kb_flags
+
+exit:
     pla
     tax
     pla
