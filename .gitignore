@@ -4,4 +4,3 @@ package.json
 vasm
 a.out
 rom.bin
-keyboard.s
