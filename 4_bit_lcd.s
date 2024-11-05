@@ -25,10 +25,11 @@ reset:
     txs
     cli ; Clear interrupt disable bit
 
-    lda #0x82
-    sta IER ; Set interrupt enable
     lda #01
     sta PCR
+
+    lda #0x82
+    sta IER ; Set interrupt enable
 
     ; Set Port B pins to output
     lda #0b11111111
@@ -243,16 +244,17 @@ print_char:
     eor #E          ; possible to just send all zeros
     sta PORTB
     rts
-
-nmi:
-    rti
+ 
 irq: 
     pha
-    lda counter
+    lda PORTA
     sta counter
     pla
     rti
 
+nmi:
+    rti
+    
     .org 0xfffa
     .word nmi
     .word reset
