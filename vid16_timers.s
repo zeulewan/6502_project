@@ -5,6 +5,7 @@ DDRB  = 0x6002  ; Data Direction Register for Port B
 DDRA  = 0x6003  ; Data Direction Register for Port A
 T1CL = 0x6004   ; Timer 1 Counter Low
 T1CH = 0x6005   ; Timer 1 Counter High
+ACR = 0x600B    ; Auxiliary Control Register
 
 ; Reset 
     .org 0x8000      ; Set reset vector starting location
@@ -12,8 +13,9 @@ T1CH = 0x6005   ; Timer 1 Counter High
 reset:
     lda #0b11111111   ; Set all bits of Port A to output
     sta DDRA
-    lda #0
+    lda #0 
     sta PORTA
+    sta ACR
 
 loop:
     inc PORTA
