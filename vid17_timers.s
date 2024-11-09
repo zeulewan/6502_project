@@ -34,7 +34,7 @@ delay:
     
 delay1:
     bit IFR
-    bvs delay1
+    bvc delay1
     lda T1CL
     rts 
 
