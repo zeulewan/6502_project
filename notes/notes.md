@@ -14,7 +14,8 @@ Run with: ```./vasm6502_oldstyle -Fbin -dotdir <example>.s```
 
 
 ##### Ben Eater 6502 current video location
-video 17/27: how do hardware timers work
+video 18/27: how do hardware timers work
+min: 14:21
 
 ##### Arduino hook up
 Address lines are in reverse ascending order 
