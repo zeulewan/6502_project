@@ -48,9 +48,46 @@ rx_wait:
     bit PORTA ; puts the value of PORTA pin6 in the zero flag
     bvs rx_wait ; wait until the zero flag is set
 
-    lda #"x"
+    jsr half_bit_delay
+
+    ldx #8
+
+read_bit:
+    jsr bit_delay
+    bit PORTA
+    bvs recv_1
+    clc
+    jmp rx_done
+recv_1:
+    sec
+    nop
+    nop
+rx_done:
+    ror
+    dex
+    bne read_bit
+
     jsr print_char
+    jsr bit_delay
     jmp rx_wait
+
+bit_delay:
+    phx
+    ldx #13
+bit_delay_1:
+    dex
+    bne bit_delay_1
+    plx
+    rts
+
+half_bit_delay:
+    phx
+    ldx #6
+half_bit_delay_1:
+    dex
+    bne half_bit_delay_1
+    plx
+    rts
 
 
 lcd_wait:
